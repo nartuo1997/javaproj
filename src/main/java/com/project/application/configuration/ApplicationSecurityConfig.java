@@ -36,16 +36,29 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+//        http
+//                .csrf().disable()
+//                .authorizeRequests()
+//                .antMatchers("/user/authenticate","/user/register").permitAll()
+//               // .antMatchers("/register").permitAll()
+//                .antMatchers("/usr/**").hasAuthority("USER")
+//                .antMatchers("/admin/**").hasAuthority("ADMIN")
+//                .antMatchers("/anonymous*").anonymous()
+//                .anyRequest().fullyAuthenticated()
+//                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
         http
-                .csrf().disable()
+
                 .authorizeRequests()
-                .antMatchers("/user/authenticate","/user/register").permitAll()
-               // .antMatchers("/register").permitAll()
-                .antMatchers("/usr/**").hasAuthority("USER")
-                .antMatchers("/admin/**").hasAuthority("ADMIN")
+                .antMatchers("/").permitAll()
+                .antMatchers("/user/authenticate","/user/usr/register").permitAll()
+                .antMatchers("/user/usr**").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/user/admin/**").hasAuthority("ADMIN")
                 .antMatchers("/anonymous*").anonymous()
                 .anyRequest().fullyAuthenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+            http.csrf().disable();
 
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 

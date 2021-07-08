@@ -55,7 +55,7 @@ public class userController {
     }
 
 
-    @GetMapping("/usr/admin/{userId}")
+    @GetMapping("/usr/{userId}")
     public ResponseEntity<?> findUserById(@PathVariable final Integer userId) {
         User user = userService.getUserById(userId);
         if(user == null) {
@@ -64,30 +64,24 @@ public class userController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-//    @PostMapping("/register")
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public User addUser(@RequestBody User user) {
-//        return userService.addUser(user);
-//        }
-
-    @PostMapping("/register")
+    @PostMapping("usr/register")
     public ResponseEntity<?> register(@RequestBody User user) {
         if (userService.findUsername(user.getUserName()) != null) {
             return new ResponseEntity<>("User is already existed in the database", HttpStatus.CONFLICT);
         }
-        user.setRole(Role.USER);
+        user.setRole(Role.ADMIN);
 // q
         return new ResponseEntity<>(userService.addUser(user), HttpStatus.CREATED);
     }
 
-    @PutMapping("admin/update/{userId}")
-    public ResponseEntity<?> update(@PathVariable final Integer userId) {
-        User user = userService.getUserById(userId);
-        if(user == null) {
+    @PutMapping("admin/update/")
+    public ResponseEntity<?> update(@RequestBody User user) {
+//        user = userService.getUserById(userId);
+        if(user.getUserId() == null) {
             return new ResponseEntity<>("{The user is not found}", HttpStatus.BAD_REQUEST);
         }
-        user.setUser_name("CrisCris");
-        user.setTitle("Toddler");
+//        user.setUser_name("CrisCris");
+//        user.setTitle("Toddler");
 
         return new ResponseEntity<>(userService.updateUser(user), HttpStatus.OK);
     }

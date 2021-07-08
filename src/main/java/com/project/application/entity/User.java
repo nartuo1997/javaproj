@@ -58,6 +58,8 @@ public class User {
 
     // getter - setter method
 
+    public Integer getUserId() {return this.userId;}
+
     public String getUserName() {
         return username;
     }
