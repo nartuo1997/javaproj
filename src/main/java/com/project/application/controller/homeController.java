@@ -1,12 +1,16 @@
 package com.project.application.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("home")
+@CrossOrigin(origins ="*")
 public class homeController {
+
     @GetMapping("/")
     String HomePage() {
-        return "<h1>Welcome to homepage! </h1>";
+        return "home";
     }
+
+
 }

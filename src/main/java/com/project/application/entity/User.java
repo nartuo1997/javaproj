@@ -1,6 +1,8 @@
 package com.project.application.entity;
 
 
+import jdk.jfr.Timestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -15,34 +17,37 @@ public class User {
     @GeneratedValue
     private Integer userId;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = Project.class, cascade = CascadeType.REMOVE)
+
     private Project project;
 
-    @Column(name = "user_name", unique = true, nullable = false)
-    private String userName;
+    @Column(name = "user_name", unique = true)
+    private String username;
     private String password;
 
     private String title;
 
+    @Column(name ="role")
     @Enumerated(EnumType.STRING)
     private Role role;
 
     @Transient
     private String token;
 
-    @CreatedDate
+    @UpdateTimestamp
     private LocalDate timeCreate;
 
-    @LastModifiedDate
+    @UpdateTimestamp
     private LocalDate lastUpdate;
 
 
 
     public User() {}    // default constructor
 
-    public User(Project project, String userName, String password, String title, Role role, String token, LocalDate timeCreate, LocalDate lastUpdate) {
+
+    public User(Project project, String username, String password, String title, Role role, String token, LocalDate timeCreate, LocalDate lastUpdate) {
         this.project = project;
-        this.userName = userName;
+        this.username = username;
         this.password = password;
         this.title = title;
         this.role = role;
@@ -54,11 +59,11 @@ public class User {
     // getter - setter method
 
     public String getUserName() {
-        return userName;
+        return username;
     }
 
     public void setUser_name(String user_name) {
-        this.userName = user_name;
+        this.username = user_name;
     }
 
     public String getTitle() {
@@ -112,7 +117,7 @@ public class User {
         return "User{" +
                 "userId=" + userId +
                 ", project=" + project +
-                ", userName='" + userName + '\'' +
+                ", userName='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", title='" + title + '\'' +
                 ", role=" + role +

@@ -4,5 +4,4 @@ import com.project.application.repository.ProjectColumnsRepository;
 
 public interface ProjectColumnsService {
 
-
 }

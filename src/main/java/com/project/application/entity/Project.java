@@ -20,15 +20,19 @@ public class Project implements Serializable {
 
     private LocalDate timeCreate;
     private String owner;
+    private String projectName;
+
+
 
     @OneToMany(mappedBy="project")
     private List<User> owners = new ArrayList<User>();
 
     public Project() {} // default constructor
 
-    public Project(LocalDate timeCreate, String owner) {
+    public Project(LocalDate timeCreate, String owner, String projectName) {
         this.timeCreate = timeCreate;
         this.owner = owner;
+        this.projectName = projectName;
     }   // constructor
 
     public int getProjectId() {
@@ -53,6 +57,14 @@ public class Project implements Serializable {
 
     public void setOwner(String owner) {
         this.owner = owner;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
     }
 
     @Override
