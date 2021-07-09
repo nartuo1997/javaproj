@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping("user")
@@ -58,33 +59,49 @@ public class userController {
     @GetMapping("/usr/{userId}")
     public ResponseEntity<?> findUserById(@PathVariable final Integer userId) {
         User user = userService.getUserById(userId);
+        System.out.println(user);
         if(user == null) {
             return new ResponseEntity<>("The user is not found", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @PostMapping("usr/register")
+    @GetMapping("/usr/getall")
+    public ResponseEntity<?> getAllUser(){
+        List<User> list = userService.getAllUser();
+        System.out.println(list);
+
+        if(list.size() < 1) {
+            return new ResponseEntity<>("There is no user in the database", HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @PostMapping("/usr/register")
     public ResponseEntity<?> register(@RequestBody User user) {
         if (userService.findUsername(user.getUserName()) != null) {
             return new ResponseEntity<>("User is already existed in the database", HttpStatus.CONFLICT);
         }
-        user.setRole(Role.ADMIN);
+
+//        user.setRole(Role.ADMIN);
 // q
         return new ResponseEntity<>(userService.addUser(user), HttpStatus.CREATED);
     }
 
-    @PutMapping("admin/update/")
+    @PutMapping("admin/update")
     public ResponseEntity<?> update(@RequestBody User user) {
 //        user = userService.getUserById(userId);
         if(user.getUserId() == null) {
             return new ResponseEntity<>("{The user is not found}", HttpStatus.BAD_REQUEST);
         }
-//        user.setUser_name("CrisCris");
-//        user.setTitle("Toddler");
+
 
         return new ResponseEntity<>(userService.updateUser(user), HttpStatus.OK);
     }
+
+
+
+
 
 //    @DeleteMapping("delete/{userId}")
 //    public ResponseEntity<?> delete(@PathVariable final Integer userId) {

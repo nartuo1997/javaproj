@@ -12,5 +12,9 @@ public interface ProjectService {
 
     public void add(Project project);
 
+    public void deleteById(Integer projectId);
+
+    public Project updateProject(Project project);
+
 //    boolean checkProject(Project projectToAdd, User user);
 }

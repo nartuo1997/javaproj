@@ -6,4 +6,8 @@ import com.project.application.entity.Resources;
 public interface ResourcesService {
     Resources get(Integer resourceId);
     public void add(Resources resources);
+
+    void deleteById(Integer resourceId);
+
+    Resources updateResource(Resources resource);
 }

@@ -34,9 +34,12 @@ public class UserServiceImpl implements UserService {
 
         return user;
     }
+
+
     @Override
     public User getUserById(Integer id) {
         Optional<User> user = userRepository.findById(id);
+//        User user = userRepository.getById(id);
         return user.get();
     }
 
@@ -55,6 +58,8 @@ public class UserServiceImpl implements UserService {
     public User updateUser(User user) {
         return userRepository.save(user);
     }
+
+
 
 
 }

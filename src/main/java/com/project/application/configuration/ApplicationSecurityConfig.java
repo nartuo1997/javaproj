@@ -53,7 +53,11 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .antMatchers("/user/authenticate","/user/usr/register").permitAll()
                 .antMatchers("/user/usr**").hasAnyRole("USER", "ADMIN")
-                .antMatchers("/user/admin/**").hasAuthority("ADMIN")
+                .antMatchers("/user/admin/**").hasAnyRole("ADMIN")
+                .antMatchers("/project/add").permitAll()
+                .antMatchers("/project/update").permitAll()
+                .antMatchers("/project/delete/**").permitAll()
+//                .antMatchers("/resource/delete").permitAll()
                 .antMatchers("/anonymous*").anonymous()
                 .anyRequest().fullyAuthenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

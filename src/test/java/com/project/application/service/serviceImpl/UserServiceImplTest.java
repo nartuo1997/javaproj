@@ -36,7 +36,7 @@ class UserServiceImplTest {
         user.setTitle("student");
         user.setTimeCreate(LocalDate.of(2021, 07, 02));
         user.setLastUpdate(LocalDate.now());
-        user.setRole(Role.ADMIN);
+//        user.setRole(Role.ADMIN);
 
         User test = userService.addUser(user);
 //        User test = userRepository.save(user);

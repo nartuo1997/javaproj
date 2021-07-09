@@ -21,15 +21,15 @@ public class User {
 
     private Project project;
 
-    @Column(name = "user_name", unique = true)
+    @Column(unique = true)
     private String username;
     private String password;
 
     private String title;
 
     @Column(name ="role")
-    @Enumerated(EnumType.STRING)
-    private Role role;
+//    @Enumerated(EnumType.STRING)
+    private String role;
 
     @Transient
     private String token;
@@ -45,7 +45,7 @@ public class User {
     public User() {}    // default constructor
 
 
-    public User(Project project, String username, String password, String title, Role role, String token, LocalDate timeCreate, LocalDate lastUpdate) {
+    public User(Project project, String username, String password, String title, String role, String token, LocalDate timeCreate, LocalDate lastUpdate) {
         this.project = project;
         this.username = username;
         this.password = password;
@@ -76,11 +76,11 @@ public class User {
         this.title = title;
     }
 
-    public Role getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(String role) {
         this.role = role;
     }
 

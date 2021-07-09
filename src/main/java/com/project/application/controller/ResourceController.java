@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 
 @RestController
-@RequestMapping("/resource")
+@RequestMapping("resource")
 public class ResourceController {
     @Autowired
     private ResourcesService resourcesService;
@@ -61,7 +61,7 @@ public class ResourceController {
 //
 //    }
 
-    @PostMapping("/addresource")
+    @PostMapping("/add")
     public ResponseEntity<?> addResource(){
         Resources resourceToAdd = new Resources();
         resourceToAdd.setLastUpdated(LocalDate.now());
@@ -70,7 +70,7 @@ public class ResourceController {
         return new ResponseEntity<>(resourceToAdd, HttpStatus.OK);
     }
 
-    @GetMapping("/getresource/{resourceId}")
+    @GetMapping("/get/{resourceId}")
     public ResponseEntity<?> getResource(@PathVariable Integer resourceId){
         Resources resources = resourcesService.get(resourceId);
 
@@ -78,6 +78,19 @@ public class ResourceController {
             return new ResponseEntity<>("The project is not found", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(resources, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{resourceId}")
+    public void delete(@PathVariable final Integer resourceId) {
+        resourcesService.deleteById(resourceId);
+    }
+    @PutMapping("/update")
+    public ResponseEntity<?> update(@RequestBody Resources resource) {
+    /*if(resource.getResourceId() == null) {
+        return new ResponseEntity<>("{The user is not found}", HttpStatus.BAD_REQUEST);
+    }*/
+        //resource.setTimeCreated(LocalDate.now());
+        return new ResponseEntity<>(resourcesService.updateResource(resource), HttpStatus.OK);
     }
 
 //    @PostMapping("/deleteResource")

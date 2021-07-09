@@ -1,9 +1,6 @@
 package com.project.application.controller;
 
-import com.project.application.entity.Project;
-import com.project.application.entity.ProjectResources;
-import com.project.application.entity.Resources;
-import com.project.application.entity.User;
+import com.project.application.entity.*;
 import com.project.application.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,7 +31,7 @@ public class ProjectController {
         return userService.findUsername(authenticationToken.getName());
     }
 
-    @PostMapping("/addproject/{projectName}")
+
 //    public ResponseEntity<?> addProject(Principal principal,
 //                                        @PathVariable String projectName){
 //        UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) principal;
@@ -47,13 +44,21 @@ public class ProjectController {
 //        }
 //        return new ResponseEntity<>(projectService.add(projectToAdd),HttpStatus.OK);
 //    }
-    public void addProject(@PathVariable String projectName) {
-        Project project = new Project();
-        project.setProjectName(projectName);
+//    @PostMapping("/add/{projectName}")
+//    public void addProject(@PathVariable String projectName) {
+//        Project project = new Project();
+//        project.setProjectName(projectName);
+//        projectService.add(project);
+//    }
+
+    @PostMapping("/add")
+    public void addProject(@RequestBody Project project) {
+//        Project project = new Project();
+//        project.setProjectName(projectName);
         projectService.add(project);
     }
 
-    @GetMapping("/getproject/{projectId}")
+    @GetMapping("/get/{projectId}")
     public ResponseEntity<?> getProject(@PathVariable Integer projectId){
         Project project = projectService.get(projectId);
 
@@ -62,6 +67,38 @@ public class ProjectController {
         }
         return new ResponseEntity<>(project, HttpStatus.OK);
     }
+
+    @DeleteMapping("/delete/{projectId}")
+    public void delete(@PathVariable final Integer projectId) {
+        projectService.deleteById(projectId);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<?> update(@RequestBody Project project) {
+//    if(project.g == null) {
+//        return new ResponseEntity<>("{The user is not found}", HttpStatus.BAD_REQUEST);
+//    }
+        //project.setProjectName("Changed");
+        return new ResponseEntity<>(projectService.updateProject(project), HttpStatus.OK);
+    }
+
+    @PostMapping("/column/add")
+    public ResponseEntity<?> addColumn(){
+        ProjectColumns columnToAdd = new ProjectColumns();
+        columnToAdd.setColumnName("New Column");
+        columnToAdd.setFormulaText("Formula");
+        columnsService.add(columnToAdd);
+        return new ResponseEntity<>(columnToAdd, HttpStatus.OK);
+    }
+    @DeleteMapping("/columns/delete/{columnId}")
+    public void deleteColumn(@PathVariable final Integer columnId) {
+        columnsService.deleteById(columnId);
+    }
+    @PutMapping("/column/update")
+    public ResponseEntity<?> updateColumn(@RequestBody ProjectColumns column) {
+        return new ResponseEntity<>(columnsService.updateProjectColumns(column), HttpStatus.OK);
+    }
+
 
 //    @DeleteMapping("/deleteProject")
 //    public ResponseEntity<?> deleteProject(Principal principal,
